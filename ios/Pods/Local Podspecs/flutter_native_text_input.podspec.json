@@ -1,0 +1,26 @@
+{
+  "name": "flutter_native_text_input",
+  "version": "2.2.0",
+  "summary": "Native text input for Flutter",
+  "description": "Native text input for Flutter",
+  "homepage": "https://github.com/henryleunghk/flutter-native-text-input",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Henry Leung": "hk.eleven@gmail.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "dependencies": {
+    "Flutter": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "9.0"
+  }
+}
