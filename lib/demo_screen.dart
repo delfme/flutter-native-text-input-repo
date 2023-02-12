@@ -14,9 +14,9 @@ class DemoScreen extends StatefulWidget {
 
 class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
 
-  final messageController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
-  late final _messageNotifier = ValueNotifier(messageController.text.isEmpty);
+  final _messageController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  late final _messageNotifier = ValueNotifier(_messageController.text.isEmpty);
 
   var isvisible = true;
   var spacer_visible = false;
@@ -38,203 +38,116 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    overlayStyle = const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
-      //statusBarColor:  Colors.lightBlueAccent,
-      //statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarDividerColor: Colors.white,
-    );
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: overlayStyle,
-
-      child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
-          title: const Text('Demo screen'),
-          leading: new IconButton(
-          icon: new Icon(Icons.arrow_back),
-          onPressed: () {
-            messageController.dispose();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-        ),
+        title: const Text('Chat screen'),
       ),
-     body: SafeArea(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Spacer(),
             Container(
               padding: const EdgeInsets.only(
-                bottom: 7.0,
-                top: 7.0,
+                bottom: 6.0,
+                top: 6.0,
                 left: 15.0,
                 right: 15.0,
               ),
-
-
               constraints: const BoxConstraints(
-                minHeight: 34,
+                minHeight: 36,
               ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(19),
                         border: Border.all(
                           width: 0.5,
                           color: const Color(0xffCFCFCF),
                         ),
                       ),
-                      child: Stack(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          //Add Flutter hintTest to fix loading delay of platform view
-                          //Before user taps the textfield, we show
-                          //a flutter text in place of textfield placeholder
-                          //if textfield gets focus, hinTest is hidden and we show
-                          //textfield placeholder back
-                          Visibility(
-                            //Temporary disabled to show issue
-                            visible: !isvisible,
-                           child: Padding(
-                             padding: Platform.isAndroid
-                                 ? const EdgeInsets.only(
-                               left: 52.0,
-                               top:7.7,
-                               right: 9.0,
-                               bottom: 4.0,
-                             )
-                                 : const EdgeInsets.only(
-                               left: 52.0,
-                               top: 7.0,
-                               right: 9.0,
-                               bottom: 2.0,
-                             ),
-                            child: Text(
-                              'Message',
-                              style: TextStyle(
-                                fontFamily: 'SF-Pro-Text',
-                                letterSpacing: Platform.isAndroid
-                                    ? '-12@16.5'.va :'-25@16.5'.va ,
-                                fontSize: 16.5,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(175, 175, 175, 1.0),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(7, 6, 7, 6),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF007AEA),
+                              shape: BoxShape.circle,
+                            ),
+                            width: 24,
+                            height: 24,
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 9.0),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:0, right:8),
+                              child: NativeTextInput(
+                                style: TextStyle(
+                                  letterSpacing: '-15@17'.va,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                                minHeightPadding: 14,
+                                controller: _messageController,
+                                focusNode: _focusNode,
+                                minLines: 1,
+                                maxLines: 12,
+                                keyboardType: KeyboardType.defaultType,
+                                returnKeyType: ReturnKeyType.defaultAction,
+                                iosOptions: IosOptions(
+                                  keyboardAppearance: Brightness.light,
+                                  placeholderStyle: TextStyle(
+                                    letterSpacing: '-15@17'.va,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black38,
+                                  ),
+                                ),
+                                placeholder: 'Message',
+                                textCapitalization: TextCapitalization.sentences,
+                                onChanged: (val) {
+                                  final isEmpty = val.trim().isEmpty;
+                                  _messageNotifier.value = isEmpty;
+                                },
+                                onTap: () {
+                                  print("onTap");
+                                },
                               ),
                             ),
                           ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.fromLTRB(7, 6, 7, 6),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF007AEA),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 9.0),
-
-                                Expanded(
-                                  child: Padding(
-                                    // paddings for textfield
-                                      padding: Platform.isAndroid
-                                          ? const EdgeInsetsDirectional.only(
-                                        start: 5.0,
-                                        end: 9.0,
-                                        bottom: 0.0,
-                                      )
-                                          : const EdgeInsetsDirectional.only(
-                                        start: 5.0,
-                                        end: 9.0,
-                                        bottom: 2.0,
-                                      ),
-                                    child: NativeTextInput(
-                                        style: TextStyle(
-                                          fontFamily: 'SF-Pro-Text',
-                                          fontSize: 16.5,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                        controller: messageController,
-                                        focusNode: focusNode,
-                                        minLines: 1,
-                                        maxLines: 12,
-                                        minHeightPadding: 4,
-                                        keyboardType: KeyboardType.defaultType,
-                                        returnKeyType: ReturnKeyType.defaultAction,
-                                        iosOptions: IosOptions(
-                                            keyboardAppearance: Brightness.light,
-                                            placeholderStyle: TextStyle(
-                                            fontFamily: 'SF-Pro-Text',
-                                            fontSize: 16.5,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        placeholderColor: Colors.grey,
-                                        placeholder: 'Message',
-                                        textCapitalization: TextCapitalization.sentences,
-                                        onChanged: (val) {
-                                          controllerCurrentText = val;
-                                        },
-                                        onTap: () {
-                                          print("onTap");
-                                          setState(() =>isvisible=false);
-                                        },
-                                      ),
-                                     // )
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Add sticker icon to the right
-                          Align(
-                            // Alignment keeps text stick to the bottom
-                            alignment: Alignment.bottomRight,
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: _messageNotifier,
-                              builder: (ctx, value, child) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    print("onTap Emoji");
-                                    setState(() =>isvisible=false);
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(7, 6, value ? 7 : 0, 6),
-                                    child: const Icon(
-                                      Icons.emoji_emotions_outlined,
-                                      color: Color(0xFF9E9E9E),
-                                    ),
+                          ValueListenableBuilder<bool>(
+                            valueListenable: _messageNotifier,
+                            builder: (ctx, value, child) {
+                              if (value) {
+                                return const Padding(
+                                  padding: EdgeInsets.fromLTRB(7, 6, 7, 6),
+                                  child: Icon(
+                                    Icons.emoji_emotions_outlined,
+                                    color: Color(0xFF9E9E9E),
                                   ),
                                 );
-                              },
-                            ),
-                          ),
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          )
                         ],
                       ),
                     ),
                   ),
-
                   const SizedBox(
                     width: 8,
                   ),
@@ -251,10 +164,8 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                         return GestureDetector(
                           onTap: () {
                             print("onTap Send");
-                            focusNode.unfocus();
+                            _focusNode.unfocus();
                             hasFocus = false;
-                            messageController.text= controllerCurrentText;
-                            messageController.clear();
                           },
                           child: const Icon(
                             Icons.send,
@@ -266,15 +177,13 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-            ),  //  const Spacer(),
+            )
           ],
         ),
       ),
-    ),
     );
   }
 }
-
 
 extension StringUtils on String {
   double get va {
@@ -285,33 +194,4 @@ extension StringUtils on String {
         int.tryParse(values.last) ?? double.tryParse(values.last) ?? 0;
     return psValue * fontSize / 1000;
   }
-}
-
-class HitTestButton extends StatelessWidget {
-  final Padding child;
-  final VoidCallback? onTap;
-  bool debugPaintButtonHitTestArea = false;
-  Color debugPaintExpandAreaColor = const Color(0xFFFF0000).withOpacity(0.4);
-  Color debugPaintClipAreaColor = const Color(0xFF0000FF).withOpacity(0.4);
-
-  HitTestButton({
-    Key? key,
-    required this.child,
-    this.onTap,
-  }) : super(key: key);
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        color: debugPaintButtonHitTestArea ? debugPaintClipAreaColor : null,
-        child: child,
-      ),
-    );
-  }
-
 }
