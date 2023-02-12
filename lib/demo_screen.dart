@@ -94,6 +94,8 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
+
+                              //Native Texfield
                               child: NativeTextInput(
                                 style: TextStyle(
                                   letterSpacing: '-15@17'.va,
@@ -127,6 +129,27 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                                   print("onTap");
                                 },
                               ),
+
+
+                            /* //Flutter Texfield
+                              child: TextFormField(
+                                controller: _messageController,
+                                minLines: 1,
+                                maxLines: 12,
+                                keyboardType: TextInputType.multiline,
+                                textCapitalization:
+                                TextCapitalization.sentences,
+                                focusNode:_focusNode,
+                                onTap: () {
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  isDense: true,
+                                  hintText: "Message",
+                                ),
+                              ),
+                             */
+
                             ),
                           ),
                           ValueListenableBuilder<bool>(
