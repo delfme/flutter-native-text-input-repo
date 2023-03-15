@@ -43,15 +43,26 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat screen'),
       ),
-      body: SafeArea(
+      body:
+      SafeArea(
         child: Column(
           children: [
-            const Spacer(),
-            Container(
+           Expanded(
+            child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+              },
+             child: Container(
+               color: Colors.brown,
+             ),
+            ),
+           ),
+           Container(
               padding: const EdgeInsets.only(
                 bottom: 6.0,
                 top: 6.0,
@@ -64,7 +75,7 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Expanded(
+                 Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -95,7 +106,7 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
 
-                              //Native Texfield
+                              /*Native Texfield
                               child: NativeTextInput(
                                 style: TextStyle(
                                   letterSpacing: '-15@17'.va,
@@ -122,16 +133,14 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                                 placeholder: 'Message',
                                 textCapitalization: TextCapitalization.sentences,
                                 onChanged: (val) {
-                                  final isEmpty = val.trim().isEmpty;
-                                  _messageNotifier.value = isEmpty;
                                 },
                                 onTap: () {
                                   print("onTap");
                                 },
                               ),
+                              *///End platform view textfield
 
-
-                            /* //Flutter Texfield
+                             //Flutter Texfield
                               child: TextFormField(
                                 controller: _messageController,
                                 minLines: 1,
@@ -148,7 +157,8 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                                   hintText: "Message",
                                 ),
                               ),
-                             */
+                             ////End flutter textfiled
+
 
                             ),
                           ),
@@ -171,6 +181,7 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
+
                   const SizedBox(
                     width: 8,
                   ),
@@ -200,7 +211,7 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
