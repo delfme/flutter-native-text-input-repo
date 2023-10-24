@@ -1,10 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter/services.dart';
-
-import 'package:flutter_native_text_input/flutter_native_text_input.dart';
-import 'main.dart';
 
 class DemoScreen extends StatefulWidget {
   const DemoScreen({Key? key}) : super(key: key);
@@ -14,42 +10,27 @@ class DemoScreen extends StatefulWidget {
 
 class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
 
-  final _messageController = TextEditingController();
+  final _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  late final _messageNotifier = ValueNotifier(_messageController.text.isEmpty);
+  late final _controllerNotifier = ValueNotifier(_controller.text.isEmpty);
 
-  var isvisible = true;
-  var spacer_visible = false;
-
-  bool keyboardAnimation = false;
   bool hasFocus = false;
-
-  double spacer_size = 0;
-  double final_pos = 0;
-
-  String controllerCurrentText = '';
-
-  // bottom and right padding for textfield.
-  double textfield_bottom_padding = 2; // this works for both ios and android but can be customized at need
-  double textfield_right_padding = 9; // this works for both ios and android
-
-  late SystemUiOverlayStyle overlayStyle;
+  double bottomPadding = 6.0;
 
   @override
   void initState() {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat screen'),
+        title: const Text('Chat Layout Demo'),
       ),
       body:
       SafeArea(
+       // maintainBottomViewPadding: true,
         child: Column(
           children: [
            Expanded(
@@ -62,9 +43,11 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
              ),
             ),
            ),
-           Container(
-              padding: const EdgeInsets.only(
-                bottom: 6.0,
+          AnimatedContainer(
+             duration: Duration(milliseconds: 10),
+             curve: Curves.fastOutSlowIn,
+              padding: EdgeInsets.only(
+                bottom: bottomPadding,
                 top: 6.0,
                 left: 15.0,
                 right: 15.0,
@@ -86,8 +69,9 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                         ),
                       ),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          // Plus icon
                           Container(
                             margin: const EdgeInsets.fromLTRB(7, 6, 7, 6),
                             decoration: const BoxDecoration(
@@ -106,68 +90,29 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
 
-                              /*Native Texfield
-                              child: NativeTextInput(
-                                style: TextStyle(
-                                  letterSpacing: '-15@17'.va,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                                minHeightPadding: 14,
-                                controller: _messageController,
-                                focusNode: _focusNode,
-                                minLines: 1,
-                                maxLines: 12,
-                                keyboardType: KeyboardType.defaultType,
-                                returnKeyType: ReturnKeyType.defaultAction,
-                                iosOptions: IosOptions(
-                                  keyboardAppearance: Brightness.light,
-                                  placeholderStyle: TextStyle(
-                                    letterSpacing: '-15@17'.va,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black38,
-                                  ),
-                                ),
-                                placeholder: 'Message',
-                                textCapitalization: TextCapitalization.sentences,
-                                onChanged: (val) {
-                                },
-                                onTap: () {
-                                  print("onTap");
-                                },
-                              ),
-                              *///End platform view textfield
-
-                             //Flutter Texfield
+                             //Flutter Texfield for demo
                               child: TextFormField(
-                                controller: _messageController,
-                                minLines: 1,
-                                maxLines: 12,
+                                controller: _controller,
                                 keyboardType: TextInputType.multiline,
                                 textCapitalization:
                                 TextCapitalization.sentences,
                                 focusNode:_focusNode,
-                                onTap: () {
-                                },
+                                onTap: () {},
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   isDense: true,
                                   hintText: "Message",
                                 ),
                               ),
-                             ////End flutter textfiled
-
 
                             ),
                           ),
                           ValueListenableBuilder<bool>(
-                            valueListenable: _messageNotifier,
+                            valueListenable: _controllerNotifier,
                             builder: (ctx, value, child) {
                               if (value) {
                                 return const Padding(
-                                  padding: EdgeInsets.fromLTRB(7, 6, 7, 6),
+                                  padding: EdgeInsets.fromLTRB(8, 6, 8, 6),
                                   child: Icon(
                                     Icons.emoji_emotions_outlined,
                                     color: Color(0xFF9E9E9E),
@@ -181,10 +126,10 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-
                   const SizedBox(
                     width: 8,
                   ),
+                  // Send button
                   Container(
                     height: 36,
                     width: 36,
@@ -193,7 +138,7 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                       shape: BoxShape.circle,
                     ),
                     child: ValueListenableBuilder<bool>(
-                      valueListenable: _messageNotifier,
+                      valueListenable: _controllerNotifier,
                       builder: (ctx, value, child) {
                         return GestureDetector(
                           onTap: () {
@@ -201,10 +146,12 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
                             _focusNode.unfocus();
                             hasFocus = false;
                           },
-                          child: const Icon(
+                          child: const Padding(
+                          padding: EdgeInsets.fromLTRB(8, 7, 6, 7),
+                            child: const Icon(
                             Icons.send,
                             color: Colors.white,
-                          ),
+                          ),),
                         );
                       },
                     ),
@@ -219,13 +166,3 @@ class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
   }
 }
 
-extension StringUtils on String {
-  double get va {
-    final values = split('@');
-    final num psValue =
-        int.tryParse(values.first) ?? double.tryParse(values.first) ?? 0;
-    final num fontSize =
-        int.tryParse(values.last) ?? double.tryParse(values.last) ?? 0;
-    return psValue * fontSize / 1000;
-  }
-}

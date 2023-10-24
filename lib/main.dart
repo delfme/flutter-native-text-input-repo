@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: DemoScreen(),
       theme: ThemeData(platform: TargetPlatform.android),
     );
   }
