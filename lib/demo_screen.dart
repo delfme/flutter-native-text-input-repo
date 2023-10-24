@@ -8,7 +8,7 @@ class DemoScreen extends StatefulWidget {
   State<DemoScreen> createState() => _DemoScreenState();
 }
 
-class _DemoScreenState extends State<DemoScreen> with TickerProviderStateMixin {
+class _DemoScreenState extends State<DemoScreen> {
 
   final _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
