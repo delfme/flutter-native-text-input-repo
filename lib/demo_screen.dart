@@ -15,7 +15,6 @@ class _DemoScreenState extends State<DemoScreen> {
   late final _controllerNotifier = ValueNotifier(_controller.text.isEmpty);
 
   bool hasFocus = false;
-  double bottomPadding = 6.0;
 
   @override
   void initState() {
@@ -43,11 +42,9 @@ class _DemoScreenState extends State<DemoScreen> {
              ),
             ),
            ),
-          AnimatedContainer(
-             duration: Duration(milliseconds: 10),
-             curve: Curves.fastOutSlowIn,
+          Container(
               padding: EdgeInsets.only(
-                bottom: bottomPadding,
+                bottom: 6.0,
                 top: 6.0,
                 left: 15.0,
                 right: 15.0,
