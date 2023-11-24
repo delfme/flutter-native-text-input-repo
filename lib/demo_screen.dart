@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_text_input/flutter_native_text_input.dart';
 
 class DemoScreen extends StatefulWidget {
   const DemoScreen({Key? key}) : super(key: key);
@@ -24,25 +25,26 @@ class _DemoScreenState extends State<DemoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Chat Layout Demo'),
       ),
       body:
       SafeArea(
-       // maintainBottomViewPadding: true,
+        //maintainBottomViewPadding: false,
         child: Column(
           children: [
-           Expanded(
-            child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-              },
-             child: Container(
-               color: Colors.brown,
-             ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                },
+                child: Container(
+                  color: Colors.brown,
+                ),
+              ),
             ),
-           ),
-          Container(
+            Container(
               padding: EdgeInsets.only(
                 bottom: 6.0,
                 top: 6.0,
@@ -55,7 +57,7 @@ class _DemoScreenState extends State<DemoScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 Expanded(
+                  Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -87,19 +89,36 @@ class _DemoScreenState extends State<DemoScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
 
-                             //Flutter Texfield for demo
+                              /*
+                              // Flutter Texfield
                               child: TextFormField(
                                 controller: _controller,
                                 keyboardType: TextInputType.multiline,
                                 textCapitalization:
                                 TextCapitalization.sentences,
-                                focusNode:_focusNode,
+                                focusNode: _focusNode,
                                 onTap: () {},
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   isDense: true,
                                   hintText: "Message",
                                 ),
+                              ),
+                              */
+
+                              // PlatformView Native Textfield
+                              child: NativeTextInput(
+                                controller: _controller,
+                                focusNode: _focusNode,
+                                minLines: 1,
+                                maxLines: 8,
+                                keyboardType: KeyboardType.defaultType,
+                                returnKeyType: ReturnKeyType.defaultAction,
+                                iosOptions: IosOptions(
+                                  keyboardAppearance: Brightness.light,
+                                ),
+                                textCapitalization: TextCapitalization.sentences,
+                                onTap: () {},
                               ),
 
                             ),
@@ -144,11 +163,11 @@ class _DemoScreenState extends State<DemoScreen> {
                             hasFocus = false;
                           },
                           child: const Padding(
-                          padding: EdgeInsets.fromLTRB(8, 7, 6, 7),
+                            padding: EdgeInsets.fromLTRB(8, 7, 6, 7),
                             child: const Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          ),),
+                              Icons.send,
+                              color: Colors.white,
+                            ),),
                         );
                       },
                     ),
@@ -162,4 +181,3 @@ class _DemoScreenState extends State<DemoScreen> {
     );
   }
 }
-
