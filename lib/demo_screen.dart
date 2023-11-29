@@ -89,7 +89,7 @@ class _DemoScreenState extends State<DemoScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
 
-                            
+                              /*
                               // Flutter Texfield
                               child: TextFormField(
                                 controller: _controller,
@@ -104,8 +104,9 @@ class _DemoScreenState extends State<DemoScreen> {
                                   hintText: "Message",
                                 ),
                               ),
+                              */
                               
-                              /*
+                            
                               // PlatformView Native Textfield
                               child: NativeTextInput(
                                 controller: _controller,
@@ -120,7 +121,7 @@ class _DemoScreenState extends State<DemoScreen> {
                                 textCapitalization: TextCapitalization.sentences,
                                 onTap: () {},
                               ),
-                              */
+                              
 
                             ),
                           ),
