@@ -89,7 +89,7 @@ class _DemoScreenState extends State<DemoScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(left:0, right:8),
 
-                              /*
+                            /*
                               // Flutter Texfield
                               child: TextFormField(
                                 controller: _controller,
@@ -105,14 +105,21 @@ class _DemoScreenState extends State<DemoScreen> {
                                 ),
                               ),
                               */
-                              
-                            
+
                               // PlatformView Native Textfield
                               child: NativeTextInput(
                                 controller: _controller,
                                 focusNode: _focusNode,
                                 minLines: 1,
-                                maxLines: 8,
+                                maxLines: 12,
+                                style: TextStyle(
+                                  fontFamily: 'SF-Pro-Text',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                                placeholderColor: Color.fromRGBO(175, 175, 175, 1),
+                                placeholder: 'Message',
                                 keyboardType: KeyboardType.defaultType,
                                 returnKeyType: ReturnKeyType.defaultAction,
                                 iosOptions: IosOptions(
@@ -121,7 +128,7 @@ class _DemoScreenState extends State<DemoScreen> {
                                 textCapitalization: TextCapitalization.sentences,
                                 onTap: () {},
                               ),
-                              
+
 
                             ),
                           ),
