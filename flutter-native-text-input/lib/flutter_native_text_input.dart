@@ -572,7 +572,7 @@ class _NativeTextInputState extends State<NativeTextInput> {
             gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
           ),
           onCreatePlatformView: (PlatformViewCreationParams params) {
-            return PlatformViewsService.initSurfaceAndroidView(
+            return PlatformViewsService.initExpensiveAndroidView(
                 id: params.id,
                 viewType: NativeTextInput.viewType,
                 layoutDirection: TextDirection.ltr,
