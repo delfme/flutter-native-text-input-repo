@@ -61,8 +61,8 @@ internal class NativeTextInput(
         //editText.gravity = Gravity.TOP
 
         //Set background color to transparent
-        //editText.setBackgroundColor(Color.argb(0,255, 255, 255))
-        editText.setBackgroundColor(Color.argb(30,255, 0, 0))
+        editText.setBackgroundColor(Color.argb(0,255, 255, 255))
+        //editText.setBackgroundColor(Color.argb(30,255, 0, 0))
 
         //Set cursor style from R.drawable
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
