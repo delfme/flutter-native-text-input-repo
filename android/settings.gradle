@@ -1,11 +1,21 @@
-include ':app'
+pluginManagement {
+    def props = new Properties()
+    def file = file("local.properties")
+    assert file.exists()
+    file.withInputStream { props.load(it) }
 
-def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
-def properties = new Properties()
+    def flutterSdk = props.getProperty("flutter.sdk")
+    assert flutterSdk != null
 
-assert localPropertiesFile.exists()
-localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
+    includeBuild("$flutterSdk/packages/flutter_tools/gradle")
 
-def flutterSdkPath = properties.getProperty("flutter.sdk")
-assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    id "com.android.application"      version "8.6.1" apply false
+    id "org.jetbrains.kotlin.android" version "2.1.0" apply false
+}
+
+include ":app"
