@@ -16,7 +16,7 @@ class _DemoScreenState extends State<DemoScreen> {
   late final _controllerNotifier = ValueNotifier(_controller.text.isEmpty);
 
   bool hasFocus = false;
-  bool _useHCPP = false;
+  bool _useHCPP = true;
 
   @override
   void initState() {
