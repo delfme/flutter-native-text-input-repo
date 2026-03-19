@@ -16,6 +16,7 @@ class _DemoScreenState extends State<DemoScreen> {
   late final _controllerNotifier = ValueNotifier(_controller.text.isEmpty);
 
   bool hasFocus = false;
+  bool _useHCPP = false;
 
   @override
   void initState() {
@@ -110,6 +111,7 @@ class _DemoScreenState extends State<DemoScreen> {
                               child: NativeTextInput(
                                 controller: _controller,
                                 focusNode: _focusNode,
+                                useHCPP: _useHCPP,
                                 minLines: 1,
                                 maxLines: 12,
                                 style: TextStyle(
