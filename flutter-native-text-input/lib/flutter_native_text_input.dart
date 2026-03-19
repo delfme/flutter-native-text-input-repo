@@ -164,6 +164,7 @@ class NativeTextInput extends StatefulWidget {
   const NativeTextInput({
     Key? key,
     this.controller,
+    this.useHCPP = false,
     this.maxLines = 12,
     this.minLines = 1,
     this.placeholder,
@@ -329,6 +330,13 @@ class NativeTextInput extends StatefulWidget {
   ///
   /// Default: KeyboardType.defaultType
   final KeyboardType keyboardType;
+
+  /// Whether to use Hybrid Composition Plus (HCPP) on Android.
+  /// When true, [PlatformViewsService.initHybridAndroidView] is used instead
+  /// of [PlatformViewsService.initExpensiveAndroidView] for better performance.
+  ///
+  /// Default: false
+  final bool useHCPP;
 
 }
 
@@ -572,7 +580,10 @@ class _NativeTextInputState extends State<NativeTextInput> {
             gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
           ),
           onCreatePlatformView: (PlatformViewCreationParams params) {
-            return PlatformViewsService.initExpensiveAndroidView(
+            final initView = widget.useHCPP
+                ? PlatformViewsService.initHybridAndroidView
+                : PlatformViewsService.initExpensiveAndroidView;
+            return initView(
                 id: params.id,
                 viewType: NativeTextInput.viewType,
                 layoutDirection: TextDirection.ltr,
